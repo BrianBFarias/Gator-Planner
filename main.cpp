@@ -265,7 +265,7 @@ int main() {
     Font font2;
     font2.loadFromFile("arial.ttf");
 
-    Text GatorPlanner("Gator Planner", font1, 20);
+    Text GatorPlanner("Schedule Chomper", font1, 20);
     GatorPlanner.setPosition(10, 10);
     GatorPlanner.setFillColor(Color::Blue);
 
