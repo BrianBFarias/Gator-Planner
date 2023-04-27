@@ -255,7 +255,7 @@ int main() {
     cout << "How many credits do you want to take for each semester: ";
     cin >> credits;
 
-    RenderWindow window(sf::VideoMode(sems * 40 + 1000, 1100), "Scheduler");
+    RenderWindow window(sf::VideoMode(sems * 40 + 1000, 1200), "Scheduler");
     vector<Semester> semesters;
     int currentSem = 0, accumCredits = 0;
     bool newSemester = true, creditsReached = false, finalSem = false;
@@ -386,7 +386,7 @@ int main() {
             header.setFillColor(Color::Black);
             Text totCredit("Semester Credits: " + to_string(accumCredits) + " out of " + to_string(credits), font2, 25);
             totCredit.setFillColor(Color::Black);
-            totCredit.setPosition(sems * 40 + 500, 1000);
+            totCredit.setPosition(sems * 40 + 500, 1100);
             window.draw(header);
             window.draw(GatorPlanner);
             semesters[currentSem - 1].draw(window);
