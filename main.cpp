@@ -137,20 +137,20 @@ public:
         Font font;
         font.loadFromFile("Drexs.ttf");
         Text column("Optimized Schedule for each Semester" , font, 40);
-        column.setPosition(((x * 40+1000)/2)-350, 20+((y * 80 + 200)/2));
+        column.setPosition(((x * 40+1000)/2)-380, 20+((y * 80 + 200)/2));
         column.setFillColor(Color::Black);
 
         window.draw(column);
         for(auto & semester : semesters){
             Text column(to_string(sem), font, 20);
-            column.setPosition(120+moveHeader,((y * 80 + 200)/2)+130);
+            column.setPosition(120+moveHeader,((y * 80 + 200)/2)+100);
             column.setFillColor(Color::Black);
             window.draw(column);
             moveClass=0;
             sem++;
             for(auto & cclass: semester){
                 Text clas(cclass.id, font, 20);
-                clas.setPosition(80+moveHeader, ((y * 80 + 200)/2)+160+moveClass);
+                clas.setPosition(80+moveHeader, ((y * 80 + 200)/2)+140+moveClass);
                 clas.setFillColor(Color::Black);
                 moveClass+=60;
                 window.draw(clas);
