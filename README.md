@@ -18,5 +18,5 @@
 - A variety of courses supplied by the UF CSE department
 ```
 
-</sub> Upon filling up your schedule the program will run a topological sort to further optimize the program ideally allowing the user to be able to take less credits in the last semester/ have room for more classes.
+</sub> Upon filling up your schedule the program will run a topological sort inb packing to further optimize the program ideally allowing the user to be able to take less credits in the last semester/ have room for more classes.
 </sub>
