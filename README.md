@@ -14,5 +14,5 @@
 </sub> Upon filling up your schedule the program will run a topological sort to further optimize the program ideally allowing the user to be able to take less credits in the last semester/ have room for more classes.
 
 
-<sub> **taco**
+<sub> DISCLAIMER: This is a duplicate for our original repository and not the actual repopsitory where most of this work was completed to refer to our original [GitHub Pages]([https://pages.github.com/](https://github.com/NickSily/Project3-Course-Scheduler.git))
 
