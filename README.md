@@ -4,7 +4,9 @@
 - This is a duplicate! Our original repo is refered below
 ```
 ### DISCLAIMER: This is a duplicate! Our original repo where most of this work was completed , [ogRepo](https://github.com/NickSily/Project3-Course-Scheduler.git), was where the main functions of this program were created.
-<sup>(The orignal repo includes test.csv files and a python webscraper created by @NickSily)
+<sup>(The orignal repo includes test.csv files and a python webscraper created by @NickSily) </sup> <br />
+<sup> (This repo contains teh SFML graphics implemented into the original main.cpp file)
+
 
 </sub> This program works with students to help them create the most optimal schedule
 
