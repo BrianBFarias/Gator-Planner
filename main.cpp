@@ -7,6 +7,10 @@
 #include <string>
 #include<sstream>
 
+#define DELETE_KEY 8
+#define ENTER_KEY 13
+#define ESCAPE_KEY 27
+
 using namespace std;
 using namespace sf;
 
@@ -137,20 +141,20 @@ public:
         Font font;
         font.loadFromFile("Drexs.ttf");
         Text column("Optimized Schedule for each Semester" , font, 40);
-        column.setPosition(((x * 40+1000)/2)-380, 20+((y * 80 + 200)/2));
+        column.setPosition(350, 620);
         column.setFillColor(Color::Black);
 
         window.draw(column);
         for(auto & semester : semesters){
             Text column(to_string(sem), font, 20);
-            column.setPosition(120+moveHeader,((y * 80 + 200)/2)+100);
+            column.setPosition(120+moveHeader,700);
             column.setFillColor(Color::Black);
             window.draw(column);
             moveClass=0;
             sem++;
             for(auto & cclass: semester){
                 Text clas(cclass.id, font, 20);
-                clas.setPosition(80+moveHeader, ((y * 80 + 200)/2)+140+moveClass);
+                clas.setPosition(80+moveHeader, 740 +moveClass);
                 clas.setFillColor(Color::Black);
                 moveClass+=60;
                 window.draw(clas);
@@ -248,17 +252,161 @@ void update(Semester &semester, int position){
     semester.semesterOptions[position].button.setFillColor(darkgreyColor);
 }
 
-int main() {
-    int sems, credits;
-    cout << "How many Semesters do you want to take: ";
-    cin >> sems;
-    cout << "How many credits do you want to take for each semester: ";
-    cin >> credits;
+class Textbox{
+public:
+    Textbox(){
 
-    RenderWindow window(sf::VideoMode(sems * 40 + 1000, 1200), "Scheduler");
+    }
+
+    Textbox(int size, Color color, bool sel){
+        textbox.setCharacterSize(size);
+        textbox.setFillColor(color);
+        isSelected = sel;
+        if(sel){
+            textbox.setString("_");
+        }
+        else{
+            textbox.setString("");
+        }
+    }
+
+    void setFont(Font &font){
+        textbox.setFont(font);
+    }
+
+    void setPosition(Vector2f pos){
+        textbox.setPosition(pos);
+    }
+
+    void setLimit(bool ToF){
+        haslimit = ToF;
+    }
+
+    void setLimit(bool ToF, int lim){
+        haslimit = ToF;
+        limit = lim;
+    }
+
+    void setSelected(bool sel){
+        isSelected = sel;
+        if(!sel){
+            string t= text.str();
+            string newT = "";
+
+            for(int i =0; i <t.length()-1; i++){
+                newT += t[i];
+            }
+            textbox.setString(newT);
+        }
+    }
+
+    string getText(){
+        return text.str();
+    }
+
+    void draw(RenderWindow &window){
+        window.draw(textbox);
+    }
+
+    void typedOn(Event input){
+        if(isSelected){
+            int charTyped = input.text.unicode;
+            if(charTyped<128){
+                if(haslimit){
+                    if(text.str().length()<=limit){
+                        inputlogic(charTyped);
+                    }
+                    else if(text.str().length() > limit && DELETE_KEY){
+                        deleteLastChar();
+                    }
+                    else{
+                        inputlogic(charTyped);
+                    }
+                }
+            }
+        }
+    }
+
+    Text textbox;
+    ostringstream text;
+    bool isSelected =false, haslimit = false;
+    int limit;
+
+    void inputlogic(int charTyped){
+        if(charTyped != DELETE_KEY && charTyped != ENTER_KEY && charTyped != ESCAPE_KEY){
+            text<< static_cast<char>(charTyped);
+        }
+        else if(charTyped == DELETE_KEY){
+            if(text.str().length()>0){
+                deleteLastChar();
+            }
+        }
+        textbox.setString((text.str()+"_"));
+    }
+    void deleteLastChar(){
+        string t= text.str();
+        string newT = "";
+
+        for(int i =0; i <t.length()-1; i++){
+            newT += t[i];
+        }
+        text.str("");
+        text <<newT;
+
+        textbox.setString(text.str());
+    }
+};
+
+void drawMenu(RenderWindow &window, Font &font1, Font &font2){
+    sf::Image image;
+    if (!(image.loadFromFile("Gator.jpg"))){
+        std::cout << "Cannot load image";   //Load Image
+    }
+    Texture texture;
+    texture.loadFromImage(image);
+    Sprite sprite;
+    sprite.setTexture(texture);
+    sprite.setScale(0.85,0.85);
+    sprite.setPosition(-380,-20);
+
+    RectangleShape box1(Vector2f{90,55});
+    box1.setFillColor(Color{255,165,70});
+    box1.setOutlineColor(Color::White);
+    box1.setOutlineThickness(3);
+
+    RectangleShape box2 = box1;
+
+    box1.setPosition(200,520);
+    box2.setPosition(1125,520);
+
+
+    Text input1("Semesters", font2, 25);
+    input1.setPosition(185,460);
+    Text input2("Credits", font2, 25);
+    input2.setPosition(1130,460);
+
+    Text schedule("Schedule", font1, 80);
+    schedule.setPosition(515,300);
+    Text chomper("Chomper", font1, 80);
+    chomper.setPosition(510,750);
+
+    window.draw(sprite);
+    window.draw(schedule);
+    window.draw(chomper);
+    window.draw(input1);
+    window.draw(input2);
+    window.draw(box1);
+    window.draw(box2);
+
+}
+
+int main() {
+    int sems=2, credits=12;
+
+    RenderWindow window(sf::VideoMode(1400, 1200), "Scheduler");
     vector<Semester> semesters;
     int currentSem = 0, accumCredits = 0;
-    bool newSemester = true, creditsReached = false, finalSem = false;
+    bool newSemester = true, creditsReached = false, finalSem = false, inMenu = true, semsEntered = false, credEntered = false;
 
     Font font1;
     font1.loadFromFile("Drexs.ttf");
@@ -278,12 +426,22 @@ int main() {
     vector<vector<Course>> chosenPlan(sems);
     vector<vector<Course>> optimizedCourseSchedule;
 
+    Textbox NumSemesters(45, Color::Black, true);
+    Textbox NumCredits(45, Color::Black, false);
+    NumSemesters.setLimit(true,2);
+    NumCredits.setLimit(true,2);
+    NumSemesters.setFont(font2);
+    NumCredits.setFont(font2);
+    NumSemesters.setPosition({220, 520});
+    NumCredits.setPosition({1145, 520});
+
 
     while (window.isOpen()) {
-        sf::Event event;
+        sf::Event Event;
 
-        if (finalSem && creditsReached) {
 
+        if(semsEntered && creditsReached){
+            inMenu = false;
         }
 
         if (newSemester && !finalSem) {
@@ -301,26 +459,45 @@ int main() {
             }
         }
 
+        while (window.pollEvent(Event)) {
 
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
+            if (Event.type == sf::Event::Closed) {
                 window.close();
             }
+            if(Keyboard::isKeyPressed(Keyboard::Return) && inMenu){
+                NumSemesters.setSelected(true);
+            }
+            else if(Keyboard::isKeyPressed(Keyboard::Escape) && inMenu){
+                NumSemesters.setSelected(false);
+            }
+
+            if(inMenu && Event.type == Event::TextEntered){
+                NumSemesters.typedOn(Event);
+                break;
+            }
+
             if (selectedCourses.size() == availableCourses.size() && !finalSem && !selectedCourses.empty()) {
                 newSemester = true;
-            } else if (availableCourses.empty() || selectedCourses.size() == availableCourses.size()) {
+            }
+            else if (availableCourses.empty() || selectedCourses.size() == availableCourses.size()) {
                 finalSem = true;
                 creditsReached = true;
             }
 
-            if (event.type == sf::Event::MouseButtonPressed) {
-                int x = event.mouseButton.x;
-                int y = event.mouseButton.y;
+            if (Event.type == sf::Event::MouseButtonPressed) {
+                int x = Event.mouseButton.x,y = Event.mouseButton.y;
+                bool classAlrInserted = false;
                 if (x > 80 && x < 280) {
                     //send credits/grap
                     int selectedpos = findCourse(y, availableCourses);
                     //find button and associated value
-                    if (selectedpos < availableCourses.size()) {
+                    for(auto & m: selectedCourses){
+                        if(m.id == availableCourses[selectedpos].id){
+                            classAlrInserted = true;
+                            break;
+                        }
+                    }
+                    if (selectedpos < availableCourses.size() && !classAlrInserted) {
                         Course chosen = availableCourses[selectedpos];
                         if (!creditsReached) {
                             accumCredits += chosen.credits;
@@ -356,9 +533,14 @@ int main() {
             }
 
         }
-
         window.clear(Color::White);
-        if (finalSem && (creditsReached)) {
+
+        if(inMenu){
+            drawMenu(window, font1, font2);
+            NumCredits.draw(window);
+            NumSemesters.draw(window);
+        }
+        else if (finalSem && (creditsReached)) {
             FullSchedule FinalSchedule(chosenPlan);
             FinalSchedule.draw(window, sems);
 
@@ -375,7 +557,6 @@ int main() {
             }
 
             optimizedCourseSchedule = optimizedSchedule.topSort(sems, credits);
-
             OptimizedFullSchedule optimalschedule(optimizedCourseSchedule);
             optimalschedule.draw(window, sems, credits);
         }
@@ -386,23 +567,13 @@ int main() {
             header.setFillColor(Color::Black);
             Text totCredit("Semester Credits: " + to_string(accumCredits) + " out of " + to_string(credits), font2, 25);
             totCredit.setFillColor(Color::Black);
-            totCredit.setPosition(sems * 40 + 500, 1100);
+            totCredit.setPosition(830, 1200);
             window.draw(header);
             window.draw(GatorPlanner);
             semesters[currentSem - 1].draw(window);
             window.draw(totCredit);
         }
         window.display();
-    }
-    Graph optimizedSchedule;
-    for (auto &courseVector: chosenPlan) {
-        for (auto &course: courseVector) {
-            //convert int back to string
-            stringstream s;
-            s << course.credits;
-            string credits = s.str();
-            optimizedSchedule.insertCourse(course.id, course.name, credits, course.preReqs);
-        }
     }
 }
 
