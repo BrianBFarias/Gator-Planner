@@ -126,8 +126,8 @@ public:
             }
 
         }
-        }
-    };
+    }
+};
 
 class OptimizedFullSchedule{
 public:
@@ -284,7 +284,7 @@ public:
 
     void setLimit(bool ToF, int lim){
         haslimit = ToF;
-        limit = lim;
+        limit = lim-1;
     }
 
     void setSelected(bool sel){
@@ -326,7 +326,7 @@ public:
             }
         }
     }
-
+private:
     Text textbox;
     ostringstream text;
     bool isSelected =false, haslimit = false;
@@ -347,7 +347,7 @@ public:
         string t= text.str();
         string newT = "";
 
-        for(int i =0; i <t.length()-1; i++){
+        for(int i =0; i <t.length(); i++){
             newT += t[i];
         }
         text.str("");
@@ -426,7 +426,7 @@ int main() {
     vector<vector<Course>> chosenPlan(sems);
     vector<vector<Course>> optimizedCourseSchedule;
 
-    Textbox NumSemesters(45, Color::Black, true);
+    Textbox NumSemesters(45, Color::Black, false);
     Textbox NumCredits(45, Color::Black, false);
     NumSemesters.setLimit(true,2);
     NumCredits.setLimit(true,2);
@@ -440,8 +440,12 @@ int main() {
         sf::Event Event;
 
 
-        if(semsEntered && creditsReached){
+        if(semsEntered && credEntered && inMenu){
             inMenu = false;
+            std::string tempSems(NumSemesters.getText().begin(), NumSemesters.getText().end());
+            sems = stoi(tempSems);
+            std::string tempCreds(NumCredits.getText().begin(), NumCredits.getText().end());
+            credits = stoi(tempCreds);
         }
 
         if (newSemester && !finalSem) {
@@ -465,10 +469,25 @@ int main() {
                 window.close();
             }
             if(Keyboard::isKeyPressed(Keyboard::Return) && inMenu){
-                NumSemesters.setSelected(true);
+                if(!semsEntered){
+                    NumSemesters.setSelected(true);
+                }
+                else{
+                    NumCredits.setSelected(true);
+                }
+
+                break;
             }
             else if(Keyboard::isKeyPressed(Keyboard::Escape) && inMenu){
-                NumSemesters.setSelected(false);
+                if(!semsEntered){
+                    NumSemesters.setSelected(false);
+                    semsEntered = true;
+                }
+                else if(!credEntered){
+                    NumCredits.setSelected(false);
+                    credEntered = true;
+                }
+                break;
             }
 
             if(inMenu && Event.type == Event::TextEntered){
@@ -576,4 +595,3 @@ int main() {
         window.display();
     }
 }
-
