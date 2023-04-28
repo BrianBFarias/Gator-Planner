@@ -5,7 +5,7 @@
 ```
 ### DISCLAIMER: This is a duplicate! Our original repo where most of this work was completed , [ogRepo](https://github.com/NickSily/Project3-Course-Scheduler.git), was where the main functions of this program were created.
 <sup>(The orignal repo includes test.csv files and a python webscraper created by @NickSily) </sup> <br />
-<sup> (This repo contains teh SFML graphics implemented by @BrianBFarias into the original main.cpp file)
+<sup> (This repo contains the SFML graphics implemented by @BrianBFarias into the original main.cpp file)
 
 
 </sub> This program works with students to help them create the most optimal schedule
@@ -20,5 +20,5 @@
 - A variety of courses supplied by the UF CSE department
 ```
 
-</sub> Upon filling up your schedule the program will run a topological sort inb packing to further optimize the program ideally allowing the user to be able to take less credits in the last semester/ have room for more classes.
+</sub> Upon filling up your schedule the program will run a topological sort and bin packing to further optimize the program ideally allowing the user to be able to take less credits in the last semester/ have room for more classes.
 </sub>
