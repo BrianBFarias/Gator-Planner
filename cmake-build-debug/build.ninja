@@ -11,7 +11,7 @@
 # =============================================================================
 
 # =============================================================================
-# Project: Interface
+# Project: Schedule-Chomper
 # Configurations: Debug
 # =============================================================================
 
@@ -41,40 +41,40 @@ include CMakeFiles/rules.ninja
 
 cmake_ninja_workdir = /Users/brian/CLionProjects/Schedule-Chomper/cmake-build-debug/
 # =============================================================================
-# Object build statements for EXECUTABLE target Interface
+# Object build statements for EXECUTABLE target Schedule-Chomper
 
 
 #############################################
-# Order-only phony target for Interface
+# Order-only phony target for Schedule-Chomper
 
-build cmake_object_order_depends_target_Interface: phony || CMakeFiles/Interface.dir
+build cmake_object_order_depends_target_Schedule-Chomper: phony || CMakeFiles/Schedule-Chomper.dir
 
-build CMakeFiles/Interface.dir/main.cpp.o: CXX_COMPILER__Interface_Debug /Users/brian/CLionProjects/Schedule-Chomper/main.cpp || cmake_object_order_depends_target_Interface
-  DEP_FILE = CMakeFiles/Interface.dir/main.cpp.o.d
+build CMakeFiles/Schedule-Chomper.dir/main.cpp.o: CXX_COMPILER__Schedule-Chomper_Debug /Users/brian/CLionProjects/Schedule-Chomper/main.cpp || cmake_object_order_depends_target_Schedule-Chomper
+  DEP_FILE = CMakeFiles/Schedule-Chomper.dir/main.cpp.o.d
   FLAGS = -std=c++14 -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.2 -fcolor-diagnostics
   INCLUDES = -I/usr/local/include -isystem /opt/homebrew/include
-  OBJECT_DIR = CMakeFiles/Interface.dir
-  OBJECT_FILE_DIR = CMakeFiles/Interface.dir
-  TARGET_COMPILE_PDB = CMakeFiles/Interface.dir/
-  TARGET_PDB = Interface.pdb
+  OBJECT_DIR = CMakeFiles/Schedule-Chomper.dir
+  OBJECT_FILE_DIR = CMakeFiles/Schedule-Chomper.dir
+  TARGET_COMPILE_PDB = CMakeFiles/Schedule-Chomper.dir/
+  TARGET_PDB = Schedule-Chomper.pdb
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target Interface
+# Link build statements for EXECUTABLE target Schedule-Chomper
 
 
 #############################################
-# Link the executable Interface
+# Link the executable Schedule-Chomper
 
-build Interface: CXX_EXECUTABLE_LINKER__Interface_Debug CMakeFiles/Interface.dir/main.cpp.o | /opt/homebrew/lib/libsfml-graphics.2.5.1.dylib /opt/homebrew/lib/libsfml-audio.2.5.1.dylib /opt/homebrew/lib/libsfml-network.2.5.1.dylib /opt/homebrew/lib/libsfml-window.2.5.1.dylib /opt/homebrew/lib/libsfml-system.2.5.1.dylib
+build Schedule-Chomper: CXX_EXECUTABLE_LINKER__Schedule-Chomper_Debug CMakeFiles/Schedule-Chomper.dir/main.cpp.o | /opt/homebrew/lib/libsfml-graphics.2.5.1.dylib /opt/homebrew/lib/libsfml-audio.2.5.1.dylib /opt/homebrew/lib/libsfml-network.2.5.1.dylib /opt/homebrew/lib/libsfml-window.2.5.1.dylib /opt/homebrew/lib/libsfml-system.2.5.1.dylib
   FLAGS = -std=c++14 -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.2
   LINK_LIBRARIES = -Wl,-rpath,/opt/homebrew/lib  /opt/homebrew/lib/libsfml-graphics.2.5.1.dylib  /opt/homebrew/lib/libsfml-audio.2.5.1.dylib  /opt/homebrew/lib/libsfml-network.2.5.1.dylib  /opt/homebrew/lib/libsfml-window.2.5.1.dylib  /opt/homebrew/lib/libsfml-system.2.5.1.dylib
-  OBJECT_DIR = CMakeFiles/Interface.dir
+  OBJECT_DIR = CMakeFiles/Schedule-Chomper.dir
   POST_BUILD = :
   PRE_LINK = :
-  TARGET_COMPILE_PDB = CMakeFiles/Interface.dir/
-  TARGET_FILE = Interface
-  TARGET_PDB = Interface.pdb
+  TARGET_COMPILE_PDB = CMakeFiles/Schedule-Chomper.dir/
+  TARGET_FILE = Schedule-Chomper
+  TARGET_PDB = Schedule-Chomper.pdb
 
 
 #############################################
@@ -110,7 +110,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 #############################################
 # Folder: /Users/brian/CLionProjects/Schedule-Chomper/cmake-build-debug
 
-build all: phony Interface
+build all: phony Schedule-Chomper
 
 # =============================================================================
 # Built-in targets

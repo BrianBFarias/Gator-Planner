@@ -316,7 +316,7 @@ public:
                     if(text.str().length()<=limit){
                         inputlogic(charTyped);
                     }
-                    else if(text.str().length() > limit && DELETE_KEY){
+                    else if(text.str().length() >limit && DELETE_KEY){
                         deleteLastChar();
                     }
                     else{
@@ -346,7 +346,8 @@ public:
         string t= text.str();
         string newT = "";
 
-        for(int i =0; i < t.length(); i++){
+
+        for(int i =0; i < t.length()-1; i++){
             newT += t[i];
         }
         text.str("");
@@ -512,7 +513,7 @@ int main() {
             }
             //typing in answer
             else if(inMenu && Event.type == Event::TextEntered){
-                if(nxtInput < 2){
+                if(!semsEntered){
                     NumSemesters.typedOn(Event);
                     nxtInput++;
                 }
