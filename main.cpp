@@ -326,7 +326,6 @@ public:
             }
         }
     }
-private:
     Text textbox;
     ostringstream text;
     bool isSelected =false, haslimit = false;
@@ -401,11 +400,11 @@ void drawMenu(RenderWindow &window, Font &font1, Font &font2){
 }
 
 int main() {
-    int sems=2, credits=12;
+    int sems, credits, nxtInput=0;
 
     RenderWindow window(sf::VideoMode(1400, 1200), "Scheduler");
     vector<Semester> semesters;
-    int currentSem = 0, accumCredits = 0;
+    int currentSem, accumCredits;
     bool newSemester = true, creditsReached = false, finalSem = false, inMenu = true, semsEntered = false, credEntered = false;
 
     Font font1;
@@ -413,7 +412,7 @@ int main() {
     Font font2;
     font2.loadFromFile("arial.ttf");
 
-    Text GatorPlanner("Schedule Chomper", font1, 20);
+    Text GatorPlanner("Schedule Chomper", font1, 28);
     GatorPlanner.setPosition(10, 10);
     GatorPlanner.setFillColor(Color::Blue);
 
@@ -423,7 +422,7 @@ int main() {
     Graph ogGraph = myGraph;
     vector<Course> availableCourses;
     vector<Course> selectedCourses;
-    vector<vector<Course>> chosenPlan(sems);
+    vector<vector<Course>> chosenPlan;
     vector<vector<Course>> optimizedCourseSchedule;
 
     Textbox NumSemesters(45, Color::Black, false);
@@ -439,16 +438,24 @@ int main() {
     while (window.isOpen()) {
         sf::Event Event;
 
-
         if(semsEntered && credEntered && inMenu){
             inMenu = false;
-            std::string tempSems(NumSemesters.getText().begin(), NumSemesters.getText().end());
-            sems = stoi(tempSems);
-            std::string tempCreds(NumCredits.getText().begin(), NumCredits.getText().end());
-            credits = stoi(tempCreds);
+            newSemester = true;
+            finalSem = false;
+            ostringstream temp1;
+            temp1<<NumSemesters.getText();
+            string tempS1 = temp1.str();
+            sems = stoi(tempS1);
+
+            ostringstream temp2;
+            temp2<<NumCredits.getText();
+            string tempS2 = temp2.str();
+            credits = stoi(tempS2);
+
+            chosenPlan.resize(sems);
         }
 
-        if (newSemester && !finalSem) {
+        if (newSemester && !finalSem && !inMenu) {
             availableCourses.clear();
             selectedCourses.clear();
             availableCourses = myGraph.getAvailableCourses(ogGraph);
@@ -468,7 +475,7 @@ int main() {
             if (Event.type == sf::Event::Closed) {
                 window.close();
             }
-            if(Keyboard::isKeyPressed(Keyboard::Return) && inMenu){
+            if(inMenu && Keyboard::isKeyPressed(Keyboard::Return)){
                 if(!semsEntered){
                     NumSemesters.setSelected(true);
                 }
@@ -491,19 +498,27 @@ int main() {
             }
 
             if(inMenu && Event.type == Event::TextEntered){
-                NumSemesters.typedOn(Event);
+                if(nxtInput < 2){
+                    NumSemesters.typedOn(Event);
+                    nxtInput++;
+                }
+                else{
+                    NumCredits.typedOn(Event);
+                }
+
                 break;
             }
 
-            if (selectedCourses.size() == availableCourses.size() && !finalSem && !selectedCourses.empty()) {
+            if (selectedCourses.size() == availableCourses.size() && !finalSem && !selectedCourses.empty() && !inMenu) {
                 newSemester = true;
+                break;
             }
             else if (availableCourses.empty() || selectedCourses.size() == availableCourses.size()) {
                 finalSem = true;
                 creditsReached = true;
             }
 
-            if (Event.type == sf::Event::MouseButtonPressed) {
+            if (Event.type == sf::Event::MouseButtonPressed && !inMenu) {
                 int x = Event.mouseButton.x,y = Event.mouseButton.y;
                 bool classAlrInserted = false;
                 if (x > 80 && x < 280) {
@@ -559,6 +574,7 @@ int main() {
             NumCredits.draw(window);
             NumSemesters.draw(window);
         }
+
         else if (finalSem && (creditsReached)) {
             FullSchedule FinalSchedule(chosenPlan);
             FinalSchedule.draw(window, sems);
@@ -582,11 +598,11 @@ int main() {
 
         else {
             Text header("Semester " + to_string(currentSem), font2, 50);
-            header.setPosition(((sems * 40 + 800) / 2) - 70, 50);
+            header.setPosition(600, 50);
             header.setFillColor(Color::Black);
-            Text totCredit("Semester Credits: " + to_string(accumCredits) + " out of " + to_string(credits), font2, 25);
+            Text totCredit("Semester Credits: " + to_string(accumCredits) + " out of " + to_string(credits), font2, 30);
             totCredit.setFillColor(Color::Black);
-            totCredit.setPosition(830, 1200);
+            totCredit.setPosition(900, 1100);
             window.draw(header);
             window.draw(GatorPlanner);
             semesters[currentSem - 1].draw(window);
