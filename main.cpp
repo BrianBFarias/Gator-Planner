@@ -293,7 +293,7 @@ public:
             string t= text.str();
             string newT = "";
 
-            for(int i =0; i <t.length()-1; i++){
+            for(int i =0; i <t.length(); i++){
                 newT += t[i];
             }
             textbox.setString(newT);
@@ -346,7 +346,7 @@ public:
         string t= text.str();
         string newT = "";
 
-        for(int i =0; i <t.length(); i++){
+        for(int i =0; i < t.length(); i++){
             newT += t[i];
         }
         text.str("");
@@ -425,7 +425,7 @@ int main() {
     vector<vector<Course>> chosenPlan;
     vector<vector<Course>> optimizedCourseSchedule;
 
-    Textbox NumSemesters(45, Color::Black, false);
+    Textbox NumSemesters(45, Color::Black, true);
     Textbox NumCredits(45, Color::Black, false);
     NumSemesters.setLimit(true,2);
     NumCredits.setLimit(true,2);
@@ -475,7 +475,7 @@ int main() {
             if (Event.type == sf::Event::Closed) {
                 window.close();
             }
-            if(inMenu && Keyboard::isKeyPressed(Keyboard::Return)){
+            if(inMenu && semsEntered && !NumCredits.isSelected){
                 if(!semsEntered){
                     NumSemesters.setSelected(true);
                 }
@@ -485,7 +485,7 @@ int main() {
 
                 break;
             }
-            else if(Keyboard::isKeyPressed(Keyboard::Escape) && inMenu){
+            else if(Keyboard::isKeyPressed(Keyboard::Return) && inMenu){
                 if(!semsEntered){
                     NumSemesters.setSelected(false);
                     semsEntered = true;
@@ -496,8 +496,7 @@ int main() {
                 }
                 break;
             }
-
-            if(inMenu && Event.type == Event::TextEntered){
+            else if(inMenu && Event.type == Event::TextEntered){
                 if(nxtInput < 2){
                     NumSemesters.typedOn(Event);
                     nxtInput++;
@@ -573,6 +572,10 @@ int main() {
             drawMenu(window, font1, font2);
             NumCredits.draw(window);
             NumSemesters.draw(window);
+            Text disclaimer("*Click 'Return/Enter' to input your answer*", font2, 20);
+            disclaimer.setPosition(500, 1080);
+            disclaimer.setFillColor(Color::White);
+            window.draw(disclaimer);
         }
 
         else if (finalSem && (creditsReached)) {
