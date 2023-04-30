@@ -8,7 +8,9 @@
 <sup> (This repo contains the SFML graphics implemented by @BrianBFarias into the original main.cpp file)
 
 
-</sub> This program works with students to help them create the most optimal schedule
+</sub> This program works with students to help them create the most optimal schedule 
+
+</sub> This Project is intended for the final group project in UF COP3530 Data Structures and Algorithm
 
 <sub> * for CSE major only *
 
