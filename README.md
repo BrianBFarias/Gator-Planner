@@ -24,3 +24,5 @@
 
 </sub> Upon filling up your schedule the program will run a topological sort and bin packing to further optimize the program ideally allowing the user to be able to take less credits in the last semester/ have room for more classes.
 </sub>
+
+![Schedule Chomper](https://github.com/BrianBFarias/Schedule-Chomper/assets/92887307/ccd72161-fc97-45e3-88ef-464908d0d0fa)
